@@ -4,7 +4,9 @@
 
 // ----------------------------------------------------------------------
 
-MeanCost::MeanCost() {}
+MeanCost::MeanCost() {
+    _n = 0;
+}
 
 MeanCost::~MeanCost() {
     if (_x_cusum != nullptr) {
@@ -16,9 +18,22 @@ MeanCost::~MeanCost() {
 }
 
 void MeanCost::setData(double *x, int n) {
+    if (_n != n) {
+        if (_x_cusum != nullptr) {
+            delete [] _x_cusum;
+        }
+        if (_x2_cusum != nullptr) {
+            delete [] _x2_cusum;
+        }        
+    }
     _n = n;
-    _x_cusum = new double[_n];
-    _x2_cusum = new double[_n];
+    if (_x_cusum == nullptr) {
+        _x_cusum = new double[_n];
+    }
+    if (_x2_cusum == nullptr) {
+        _x2_cusum = new double[_n];
+    }
+
     double sum = 0, x2_sum = 0;
     for (int i = 0; i < _n; ++i) {
         sum += x[i];
@@ -37,7 +52,9 @@ double MeanCost::cost(int a, int b) {
 
 // ----------------------------------------------------------------------
 
-LinearCost::LinearCost() {}
+LinearCost::LinearCost() {
+    _n = 0;
+}
 
 LinearCost::~LinearCost() {
     if (_x_cusum != nullptr) {
@@ -55,12 +72,34 @@ LinearCost::~LinearCost() {
 }
 
 void LinearCost::setData(double *x, int n) {
+    if (_n != n) {
+        if (_x_cusum != nullptr) {
+            delete [] _x_cusum;
+        }
+        if (_x2_cusum != nullptr) {
+            delete [] _x2_cusum;
+        }        
+        if (_y_cusum != nullptr) {
+            delete [] _y_cusum;
+        }
+        if (_y2_cusum != nullptr) {
+            delete [] _y2_cusum;
+        }        
+    }
     _n = n;
-    _x_cusum = new double[_n];
-    _x2_cusum = new double[_n];
-    _y_cusum = new double[_n];
-    _y2_cusum = new double[_n];
-    _yx_cusum = new double[_n];
+    if (_x_cusum == nullptr) {
+        _x_cusum = new double[_n];
+    }
+    if (_x2_cusum == nullptr) {
+        _x2_cusum = new double[_n];
+    }
+    if (_y_cusum == nullptr) {
+        _y_cusum = new double[_n];
+    }
+    if (_y2_cusum == nullptr) {
+        _y2_cusum = new double[_n];
+    }
+
     double x_sum = 0, x2_sum = 0;
     double y_sum = 0, y2_sum = 0;
     double xy_sum = 0;
@@ -98,7 +137,9 @@ double LinearCost::cost(int a, int b) {
 
 // ----------------------------------------------------------------------
 
-StdCost::StdCost() {}
+StdCost::StdCost() {
+    _n = 0;
+}
 
 StdCost::~StdCost() {
     if (_x_cusum != nullptr) {
@@ -110,9 +151,22 @@ StdCost::~StdCost() {
 }
 
 void StdCost::setData(double *x, int n) {
+    if (_n != n) {
+        if (_x_cusum != nullptr) {
+            delete [] _x_cusum;
+        }
+        if (_x2_cusum != nullptr) {
+            delete [] _x2_cusum;
+        }        
+    }
     _n = n;
-    _x_cusum = new double[_n];
-    _x2_cusum = new double[_n];
+    if (_x_cusum == nullptr) {
+        _x_cusum = new double[_n];
+    }
+    if (_x2_cusum == nullptr) {
+        _x2_cusum = new double[_n];
+    }
+
     double sum = 0, x2_sum = 0;
     for (int i = 0; i < _n; ++i) {
         sum += x[i];
@@ -133,7 +187,9 @@ double StdCost::cost(int a, int b) {
 
 // ----------------------------------------------------------------------
 
-RmsCost::RmsCost() {}
+RmsCost::RmsCost() {
+    _n = 0;
+}
 
 RmsCost::~RmsCost() {
     if (_x2_cusum != nullptr) {
@@ -142,8 +198,16 @@ RmsCost::~RmsCost() {
 }
 
 void RmsCost::setData(double *x, int n) {
+    if (_n != n) {
+        if (_x2_cusum != nullptr) {
+            delete [] _x2_cusum;
+        }        
+    }
     _n = n;
-    _x2_cusum = new double[_n];
+    if (_x2_cusum == nullptr) {
+        _x2_cusum = new double[_n];
+    }
+
     double x2_sum = 0;
     for (int i = 0; i < _n; ++i) {
         x2_sum += (x[i] * x[i]);
