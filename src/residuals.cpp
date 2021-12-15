@@ -5,12 +5,13 @@ int getResidueIndex(double * fwd, double * rev, int n, int Lmin) {
 
     int m = n - 2 * Lmin;
     double * x = new double[m];
+    int LminN = n - Lmin;
     for (int i = 0; i < m; ++i) {
         x[i] = fwd[i + Lmin] + rev[i + Lmin];
     }
     int xargmin =  argmin(x, m);
     delete [] x;
-    return xargmin;
+    return xargmin + Lmin;
 }
 
 int argmin(double * d, int n) {
