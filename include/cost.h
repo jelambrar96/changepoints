@@ -12,6 +12,9 @@ public:
     virtual ~AbstractCost() {};
     virtual void setData(double *d, int n) = 0;
     virtual double cost(int a, int b) = 0;
+    virtual int getN() { return _n; }
+protected:
+    int _n;
 };
 
 
@@ -23,7 +26,6 @@ public:
     virtual double cost(int a, int b);
 
 private:
-    int _n;
     double * _x_cusum;
     double * _x2_cusum;
 };
@@ -37,7 +39,6 @@ public:
     virtual double cost(int a, int b);
 
 private:
-    int _n;
     double * _x_cusum;
     double * _x2_cusum;
     double * _y_cusum;
@@ -54,7 +55,6 @@ public:
     virtual double cost(int a, int b);
 
 private:
-    int _n;
     double * _x_cusum;
     double * _x2_cusum;
 
@@ -69,7 +69,6 @@ public:
     virtual double cost(int a, int b);
 
 private:
-    int _n;
     double * _x_cusum;
     double * _x2_cusum;
 };

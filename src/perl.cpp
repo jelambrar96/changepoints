@@ -1,7 +1,9 @@
 #include "perl.h"
 
 
-std::vector<int> perl(double x, int n, AbstractCost * cost; double pen = NULL) {
+std::vector<int> perl(AbstractCost * cost; double pen = NULL) {
+
+    int n = cost->getN();
 
     double penin = (pen == NULL) ? log(n) : pen;
 
