@@ -4,6 +4,7 @@
 std::vector<int> perl(AbstractCost * cost; double pen = NULL) {
 
     int n = cost->getN();
+    int Lmin = cost->getLmin();
 
     double penin = (pen == NULL) ? log(n) : pen;
 
@@ -24,12 +25,13 @@ std::vector<int> perl(AbstractCost * cost; double pen = NULL) {
     // int size_r = 1;
 
     for (int i = 2; i < n + 1; ++i) {
+    // for (int i = Lmin; i < n; ++i) {
 
         int size_r = (int)R.size();
         double seg_costs = new double[size_r];
 
         for (int j = 0; j < size_r) {
-            seg_costs[j] = cost->cost(R[j], i); 
+            seg_costs[j] = cost->cost(R[j]-1, i-1); 
         }
 
         double * Fcost = new double[size_r];

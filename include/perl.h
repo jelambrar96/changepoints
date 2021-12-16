@@ -4,6 +4,6 @@
 #include <cmath>
 #include <vector>
 
-std::vector<int> perl(AbstractCost * cost; double pen = NULL);
+std::vector<int> perl(AbstractCost * cost, double pen = NULL);
 
 #endif
