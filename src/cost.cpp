@@ -52,15 +52,15 @@ double MeanCost::cost(int a, int b) {
     return d_cusum / m - d2_cusum / (m * m);
 }
 
-double MeanCost::getLmin() { return 1; }
+int MeanCost::getLmin() { return 1; }
 
-double MeanCost::getFWD(double * d) {
+void MeanCost::getFWD(double * d) {
     for (int i = 0; i < _n; ++i) {
         d[i] = _x2_cusum[i] - _x_cusum[i] * _x_cusum[i] / (i+1);
     }
 }
 
-double MeanCost::getREV(double * rev) {
+void MeanCost::getREV(double * rev) {
     int n = _n;
     for (int i = n - 1; i >= 0; --i) {
         double cusum = _x_cusum[n-1] - _x_cusum[i];
@@ -159,9 +159,9 @@ double LinearCost::cost(int a, int b) {
     return (Sxx == 0 ? std::numeric_limits<double>::max() : Syy - Sxy * Sxy / Sxx);
 }
 
-double LinearCost::getLmin() { return 2; }
+int LinearCost::getLmin() { return 2; }
 
-double LinearCost::getFWD(double * fwd) {
+void LinearCost::getFWD(double * fwd) {
     int n = _n;
     for (int i = 0; i < n; ++i) {
         double ycusum = _y_cusum[i];
@@ -176,7 +176,7 @@ double LinearCost::getFWD(double * fwd) {
     }    
 }
 
-double LinearCost::getREV(double * rev) { 
+void LinearCost::getREV(double * rev) { 
     int n = _n;
     for (int i = n - 1; i >= 0; --i) {
         int temp_n = n - i;
@@ -244,9 +244,9 @@ double StdCost::cost(int a, int b) {
     return m * log(c);
 }
 
-double StdCost::getLmin() { return 2; }
+int StdCost::getLmin() { return 2; }
 
-double StdCost::getFWD(double * fwd) {
+void StdCost::getFWD(double * fwd) {
     int n = _n;
     for (int i = 0; i < n; ++i) {
         double cusum = _x_cusum[i];
@@ -254,12 +254,12 @@ double StdCost::getFWD(double * fwd) {
         int temp_n = i + 1;
         double ss = cusum2 / temp_n - cusum * cusum / (temp_n * temp_n);
         double c = (ss > 0) ? ss : std::numeric_limits<double>::epsilon(); 
-        sumlog = log(c);
+        double sumlog = log(c);
         fwd[i] = temp_n * sumlog;
     }
 }
 
-double StdCost::getREV(double * rev) {
+void StdCost::getREV(double * rev) {
     int n = _n;
     for (int i = n - 1; i >= 0; --i) {
         double cusum = _x_cusum[n-1] - _x_cusum[i];
@@ -267,7 +267,7 @@ double StdCost::getREV(double * rev) {
         int temp_n = n - i;
         double ss = cusum2 / temp_n - cusum * cusum / (temp_n * temp_n);
         double c = (ss > 0) ? ss : std::numeric_limits<double>::epsilon(); 
-        sumlog = log(c);
+        double sumlog = log(c);
         rev[i] = temp_n * sumlog;
     }
 }
@@ -310,27 +310,27 @@ double RmsCost::cost(int a, int b) {
     return m * (log(c) - log(m));
 }
 
-double RmsCost::getLmin() { return 2; }
+int RmsCost::getLmin() { return 2; }
 
-double RmsCost::getFWD(double * fwd) {
+void RmsCost::getFWD(double * fwd) {
     int n = _n;
     for (int i = 0; i < n; ++i) {
         // cusum
         int temp_n = i + 1;
         double cusum2 = _x2_cusum[i];
         double c = (cusum2 > 0) ? cusum2 : std::numeric_limits<double>::epsilon();
-        sumlog = (log(c) - log(temp_n));
+        double sumlog = (log(c) - log(temp_n));
         fwd[i] = temp_n * sumlog;
     }
 }
 
-double RmsCost::getREV(double * d) {
+void RmsCost::getREV(double * rev) {
     int n = _n;
     for (int i = n - 1; i >= 0; --i) {
         int temp_n = n - i;
         double cusum2 = _x2_cusum[n-1] - _x2_cusum[i];
         double c = (cusum2 > 0) ? cusum2 : std::numeric_limits<double>::epsilon(); 
-        sumlog = (log(c) - log(temp_n));
+        double sumlog = (log(c) - log(temp_n));
         rev[i] = temp_n * sumlog;
     }
 }
